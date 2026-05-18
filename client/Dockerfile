@@ -4,11 +4,13 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+
+# THIS IS THE FIX: Tell Node 18 to allow legacy React build tools
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN npm run build
 
 # Stage 2: Serve with Nginx
-# Using the stable Docker Hub path - Azure agents can usually pull this 
-# if the Node image is already pulled from MCR
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
