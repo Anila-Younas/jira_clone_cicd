@@ -7,7 +7,9 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve with Nginx
-FROM mcr.microsoft.com/mirror/official/nginx:alpine
+# Using the stable Docker Hub path - Azure agents can usually pull this 
+# if the Node image is already pulled from MCR
+FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
