@@ -31,6 +31,13 @@ stages:
         command: login
         containerRegistry: acr-service-connection
         
+    # --- ADDED STEP: Inject Backend URL into React ---
+    - bash: |
+        echo "API_URL=https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net" > client/.env
+        echo "REACT_APP_API_URL=https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net" >> client/.env
+      displayName: 'Link Frontend to Azure Backend'
+    # -------------------------------------------------
+
     - task: Docker@2
       displayName: 'Build Frontend Image'
       inputs:
