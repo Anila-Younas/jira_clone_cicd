@@ -77,8 +77,11 @@ stages:
           - task: AzureStaticWebApp@0
             displayName: 'Deploy Frontend to Azure Static Web App'
             inputs:
-              app_location: 'client'  # Removed the leading slash to fix the path
+              app_location: 'client'
               output_location: 'build'
               skip_api_build: true
             env:
               azure_static_web_apps_api_token: $(SWA_DEPLOYMENT_TOKEN)
+              # --- ADD THESE TWO LINES TO FORCE THE CONNECTION ---
+              API_URL: 'https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net'
+              REACT_APP_API_URL: 'https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net'
