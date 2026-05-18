@@ -5,7 +5,9 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 
-# THIS IS THE FIX: Tell Node 18 to allow legacy React build tools
+# --- THE FIX: Inject the Backend URL directly into the build environment ---
+ENV API_URL=https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net
+ENV REACT_APP_API_URL=https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
 RUN npm run build
