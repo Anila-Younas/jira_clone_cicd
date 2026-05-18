@@ -65,10 +65,12 @@ stages:
       runOnce:
         deploy:
           steps:
+          - checkout: self  # Added to ensure the agent downloads the code
+          
           - task: AzureStaticWebApp@0
             displayName: 'Deploy Frontend to Azure Static Web App'
             inputs:
-              app_location: '/client'
+              app_location: 'client'  # Removed the leading slash to fix the path
               output_location: 'build'
               skip_api_build: true
             env:
