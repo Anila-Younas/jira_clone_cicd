@@ -72,8 +72,15 @@ stages:
       runOnce:
         deploy:
           steps:
-          - checkout: self  # Added to ensure the agent downloads the code
+          - checkout: self
           
+          # --- THE FIX: Create the .env file exactly when the Deploy agent needs it ---
+          - bash: |
+              echo "API_URL=https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net" > client/.env
+              echo "REACT_APP_API_URL=https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net" >> client/.env
+            displayName: 'Inject Backend URL for Static Web App Build'
+          # --------------------------------------------------------------------------
+
           - task: AzureStaticWebApp@0
             displayName: 'Deploy Frontend to Azure Static Web App'
             inputs:
@@ -82,6 +89,3 @@ stages:
               skip_api_build: true
             env:
               azure_static_web_apps_api_token: $(SWA_DEPLOYMENT_TOKEN)
-              # --- ADD THESE TWO LINES TO FORCE THE CONNECTION ---
-              API_URL: 'https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net'
-              REACT_APP_API_URL: 'https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net'
