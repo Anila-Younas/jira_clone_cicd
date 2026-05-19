@@ -61,7 +61,8 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        API_URL: JSON.stringify('https://jira-api.ivorreic.com'),
+        // THIS IS THE FIX: Hardcoded to your Azure App Service Backend
+        API_URL: JSON.stringify('https://app-jiracicd-backend-anila-drhdh3cde9badvcc.eastasia-01.azurewebsites.net'),
       },
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
